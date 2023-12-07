@@ -1,5 +1,7 @@
 package com.z.springboot_mybatisplus;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.z.springboot_mybatisplus.mapper.ProviderMapper;
 import com.z.springboot_mybatisplus.pojo.Provider;
 import com.z.springboot_mybatisplus.service.ProviderService;
@@ -42,6 +44,21 @@ class SpringBootMybatisPlusApplicationTests {
     void testSelect3(){
         Provider provider = providerService.selectProviderById(2);
         System.out.println(provider);
+    }
+    @Test
+    public void testPageList() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.like("proName","公司");
+        Page<Provider> page = new Page<>(1, 5);
+        providerMapper.selectPage(page,queryWrapper);
+// 输出page对象分页查询信息
+        System.out.println("总条数：" + page.getTotal());
+        System.out.println("每页显示条数：" + page.getSize());
+        System.out.println("总页数：" + page.getPages());
+        System.out.println("当前页：" + page.getCurrent());
+        System.out.println("是否有上一页：" + page.hasPrevious());
+        System.out.println("是否有下一页：" + page.hasNext());
+        System.out.println("查询结果：" + page.getRecords());
     }
 
 }
